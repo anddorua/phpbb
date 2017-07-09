@@ -51,22 +51,10 @@ COPY php.ini /usr/local/etc/php/
 # and a script to download and extract the latest stable phpBB version:
 COPY bin /usr/local/bin
 
-# Install phpBB into the Apache document root:
-RUN download-phpbb /var/www \
-  && rm -rf \
-    /var/www/phpBB3/install \
-    /var/www/phpBB3/docs \
-    /var/www/html \
-  && mv /var/www/phpBB3 /var/www/html
-
-# Add the phpBB config file:
-COPY config.php /var/www/html/
+RUN mkdir -p /var/www/html/files /var/www/html/store /var/www/html/images/avatars/upload
 
 # Expose the phpBB upload directories as volumes:
-VOLUME \
-  /var/www/html/files \
-  /var/www/html/store \
-  /var/www/html/images/avatars/upload
+VOLUME /var/www/html
 
 ENV \
   DBHOST=mysql \
